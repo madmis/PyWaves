@@ -1,0 +1,14 @@
+version: "3"
+services:
+    pywaves:
+        container_name: waves
+        build: ./
+        image: pywaves:latest
+        environment:
+            - PYTHONPATH=/var/www
+        expose:
+            - "3000"
+        volumes:
+            - ./:/var/www
+        tty: true
+        hostname: pywaves
