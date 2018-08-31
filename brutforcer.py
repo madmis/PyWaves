@@ -6,6 +6,7 @@ import sqlite3
 import secrets
 from requests.exceptions import ConnectionError
 import logging, verboselogs, coloredlogs
+from json.decoder import JSONDecodeError
 
 wordList = ['abandon', 'ability', 'able', 'about', 'above', 'absent', 'absorb', 'abstract', 'absurd', 'abuse', 'access',
             'accident', 'account', 'accuse', 'achieve', 'acid', 'acoustic', 'acquire', 'across', 'act', 'action',
@@ -245,8 +246,12 @@ while True:
         else:
             log.info("\tBalance ({}): {}".format(address.address, address.balance()))
     except ConnectionError as e:
-        time.sleep(180)
         log.exception("\tConnection error", e)
+        time.sleep(180)
+        continue
+    except JSONDecodeError as e:
+        log.exception("\tJSONDecodeError error", e)
+        time.sleep(180)
         continue
 
     c.execute("INSERT INTO seeds VALUES (?,?,?,?)", (seed, address.address, datetime.datetime.now(),str(bal)))
