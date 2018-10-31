@@ -5,6 +5,7 @@ import logging, verboselogs, coloredlogs
 
 from json.decoder import JSONDecodeError
 from finder.update_top_wallets import get_top_wallets
+from requests.exceptions import ConnectionError
 
 
 def init_logger(level: str, name: str) -> logging.Logger:
